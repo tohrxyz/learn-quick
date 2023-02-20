@@ -5,17 +5,25 @@ import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function App() {
 
+  // handles change of text inside TextInput element
   const [value, onChangeText] = useState('Placeholder')
+
+  // function that hides keyboard
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   }
 
   return (
+    // container for everything
+    // safeareaview - fixes cover up by iphone notch etc. -> not displayed under it
     <SafeAreaView style={styles.container}>
+ 
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
         <View style={styles.contentContainer}>
+          
           <Text style={styles.title}>Learn-Quick</Text>
           <Text style={styles.description}>Enter text to be shortened into bullet points:</Text>
+          
           <View style={styles.textInputContainer}>
               <TextInput
                 editable
@@ -29,8 +37,17 @@ export default function App() {
                 style={styles.textInput}
               /> 
           </View>
+          
+          <View style={styles.buttonSummarizeContainer}>
+            <Button
+              title="Summarize !" 
+              color="white"
+              // fontSize={30} -> cant change fontSize for iOS -> solution: create custom button
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
+      
     </SafeAreaView>
   );
 }
@@ -52,8 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 150,
     fontSize: 25,
     maxWidth: 300,
-    // color: '#bdbdbd'
-    // marginLeft: -50,
+    marginLeft: -50,
   },
   textInput:{
     color: 'black',
@@ -72,7 +88,20 @@ const styles = StyleSheet.create({
   contentContainer:{
     paddingHorizontal: 20,
     paddingVertical: 15,
-  }
+    alignItems: 'center'
+  },
+  buttonSummarizeContainer:{
+    borderWidth: 2,
+    borderColor: '#0277bd',
+    borderRadius: 50,
+    width: 140,
+    backgroundColor: '#0277bd',
+    marginTop: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
 });
 
 
