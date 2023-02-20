@@ -24,6 +24,8 @@ export default function App() {
                 //maxLenght
                 onChangeText={text => onChangeText(text)}
                 value = {value}
+                returnKeyType="done"
+                onSubmitEditing={dismissKeyboard}
                 style={styles.textInput}
               /> 
           </View>
