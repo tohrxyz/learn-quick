@@ -65,7 +65,9 @@ export default function App() {
 
           {/* response from server -> result */}
           <View style={styles.resultContainer}>
-            <Text style={styles.resultText}>{value}</Text>
+            {/* temporary placeholder for result container */}
+            {/* the content from input field is rendered here */}
+            <Text style={styles.resultText}>{value !== "" ? value : "Summarized text"}</Text>
           </View>
         </View>
       </ScrollView>
