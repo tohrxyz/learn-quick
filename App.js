@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button , TextInput, ScrollView} from 'react-native';
-import { StyleSheet, SafeAreaView } from 'react-native';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Configuration, OpenAIApi } from 'openai';
+import { SafeAreaView } from 'react-native';
+import { Keyboard } from 'react-native';
 import styles from './styles/styles';
 
 export default function App() {
