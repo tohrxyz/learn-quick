@@ -30,9 +30,7 @@ export default function App() {
               editable
               multiline
               numberOfLines={10}
-              // this handles input text change
-              // also removes whitespace on the end of textarea
-              onChangeText={text => onChangeText(text.trimEnd())}
+              onChangeText={text => onChangeText(text)}
               value = {value}
               returnKeyType={'done'}
               onSubmitEditing={dismissKeyboard}
@@ -44,7 +42,6 @@ export default function App() {
           <Button
             title="Summarize !" 
             color="white"
-            // fontSize={30} -> cant change fontSize for iOS -> solution: create custom button
           />
         </View>
       </View>
