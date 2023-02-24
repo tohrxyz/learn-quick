@@ -8,7 +8,7 @@ import styles from './styles/styles';
 export default function App() {
 
   // handles change of text inside TextInput element
-  const [value, onChangeText] = useState('Placeholder')
+  const [value, onChangeText] = useState('')
 
   // function that hides keyboard
   const dismissKeyboard = () => {
@@ -24,14 +24,14 @@ export default function App() {
         <View style={styles.contentContainer}>
           
           <Text style={styles.title}>Learn-Quick</Text>
-          <Text style={styles.description}>Enter text to be shortened into bullet points:</Text>
+          {/* <Text style={styles.description}>Summarize text</Text> */}
           
           <View style={styles.textInputContainer}>
               <TextInput
+                placeholder="Enter text to be summarized"
                 editable
                 multiline
                 numberOfLines={4}
-                //maxLenght
                 onChangeText={text => onChangeText(text)}
                 value = {value}
                 returnKeyType="done"
