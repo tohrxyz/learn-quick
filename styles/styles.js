@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#0277bd',
     borderRadius: 10,
-    marginTop: 100,
+    marginTop: 50,
     width: 350,
     paddingHorizontal: 20,
     paddingVertical: 15,
@@ -51,6 +51,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
+  },
+  resultContainer:{
+    marginTop: 50,
+    borderWidth: 3,
+    borderColor: '#0277bd',
+    width: 350,
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+  },
+  resultText:{
+    fontSize: 18,
   },
 });
 
