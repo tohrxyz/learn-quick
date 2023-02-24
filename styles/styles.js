@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
   resultText:{
     fontSize: 18,
   },
+  btnInputClear:{
+    marginLeft: 300,
+    marginBottom: -30,
+  }
 });
 
 export default styles;

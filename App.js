@@ -15,6 +15,11 @@ export default function App() {
     Keyboard.dismiss();
   }
 
+  // function that clears input
+  const clearInput = () => {
+    onChangeText('');
+  }
+
   return (
     // container for everything
     // safeareaview - fixes cover up by iphone notch etc. -> not displayed under it
@@ -40,6 +45,14 @@ export default function App() {
                 onSubmitEditing={dismissKeyboard}
                 style={styles.textInput}
               /> 
+          </View>
+
+          {/* button that clears the input */}
+          <View style={styles.btnInputClear}>
+            <Button
+                  title='Clear'
+                  onPress={clearInput}
+            />
           </View>
           
           {/* button to summarize */}
