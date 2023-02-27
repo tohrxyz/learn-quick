@@ -7,7 +7,10 @@ import styles from './styles/styles';
 export default function App() {
 
   // handles change of text inside TextInput element
-  const [value, onChangeText] = useState('')
+  const [value, onChangeText] = useState('');
+
+  // handles display result values
+  const [result, setResult] = useState();
 
   // function that hides keyboard
   const dismissKeyboard = () => {
@@ -17,6 +20,32 @@ export default function App() {
   // function that clears input
   const clearInput = () => {
     onChangeText('');
+  }
+
+  // function that handles API request
+  async function onSubmit(event) {
+    event.preventDefault();
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ textInput: value }),
+      });
+
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw data.error || new Error(`Request failed with status ${response.status}`);
+      }
+
+      setResult(data.result);
+      onChangeText("");
+    } catch(error) {
+      // Consider implementing your own error handling logic here
+      console.error(error);
+      alert(error.message);
+    }
   }
 
   return (
@@ -43,11 +72,11 @@ export default function App() {
                 returnKeyType={'done'}
                 onSubmitEditing={dismissKeyboard}
                 style={styles.textInput}
-              /> 
+              />
           </View>
 
           {/* button that clears the input */}
-          <View style={styles.btnInputClear}>
+         <View style={styles.btnInputClear}>
             <Button
                   title='Clear'
                   onPress={clearInput}
@@ -59,14 +88,14 @@ export default function App() {
             <Button
               title="Summarize !" 
               color="white"
+              onPress={onSubmit}
             />
           </View>
 
           {/* response from server -> result */}
           <View style={styles.resultContainer}>
-            {/* temporary placeholder for result container */}
-            {/* the content from input field is rendered here */}
-            <Text style={styles.resultText}>{value !== "" ? value : "Summarized text"}</Text>
+            
+            <Text style={styles.resultText}>{result}</Text>
           </View>
         </View>
       </ScrollView>
