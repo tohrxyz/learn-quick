@@ -17,7 +17,7 @@ export default function App() {
   const [value, onChangeText] = useState('');
 
   // handles display result values
-  const [result, setResult] = useState();
+  const [result, setResult] = useState('');
 
   // function that hides keyboard
   const dismissKeyboard = () => {
@@ -124,8 +124,8 @@ export default function App() {
 
           {/* response from server -> result */}
           <View style={styles.resultContainer}>
-            
-            <Text style={styles.resultText}>{result}</Text>
+            {/* when result is empty put a placeholder there */}
+            <Text style={styles.resultText}>{result !== '' ? result : "Summarized text" }</Text>
           </View>
 
            {/* button that clears the input */}
