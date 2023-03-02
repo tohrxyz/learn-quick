@@ -3,6 +3,10 @@ import { View, Text, Button , TextInput, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Keyboard } from 'react-native';
 import styles from './styles/styles';
+import { Configuration, OpenAIApi } from 'openai';
+import "react-native-url-polyfill/auto";
+
+const config = require("./components/config");
 
 export default function App() {
 
@@ -22,25 +26,41 @@ export default function App() {
     onChangeText('');
   }
 
+  // function that clears result
+  const clearResult = () => {
+    setResult('');
+  }
+
+  // function that creates a prompt
+  function generatePromptFromInput(input){
+    return `Summarize this text into bulletpoints, but every bulletpoint MUST start with '#':
+  
+    ${input}`
+  }
+
   // function that handles API request
   async function onSubmit(event) {
     event.preventDefault();
+
     try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ textInput: value }),
+
+      const configuration = new Configuration({
+        apiKey: config.OPENAI_API_KEY,
       });
 
-      const data = await response.json();
-      if (response.status !== 200) {
-        throw data.error || new Error(`Request failed with status ${response.status}`);
-      }
+      const openai = new OpenAIApi(configuration);
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: generatePromptFromInput(value.trimEnd()),
+        temperature: 0,
+        max_tokens: 256,
+      });
 
-      setResult(data.result);
-      onChangeText("");
+      const txt = response.data.choices[0].text;
+      console.log(txt);
+      const prettyString = txt.trimStart().replace(/#/g, "\n-");
+      setResult(prettyString.trimStart());
+      
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -97,6 +117,15 @@ export default function App() {
             
             <Text style={styles.resultText}>{result}</Text>
           </View>
+
+           {/* button that clears the input */}
+         <View style={styles.btnInputClear}>
+            <Button
+                  title='Clear'
+                  onPress={clearResult}
+            />
+          </View>
+          <View style={styles.spacer}></View>
         </View>
       </ScrollView>
       
