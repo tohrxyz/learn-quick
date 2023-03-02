@@ -8,14 +8,26 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "expo": {
+    "ios": {
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
+    }
+  },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
+    "dotenv": "^16.0.3",
     "expo": "~47.0.12",
     "expo-status-bar": "~1.4.2",
     "openai": "^3.1.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-permissions": "^3.7.2",
+    "react-native-url-polyfill": "^1.3.0",
     "react-native-web": "~0.18.9"
   },
   "devDependencies": {

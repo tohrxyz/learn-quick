@@ -3,11 +3,18 @@ import { View, Text, Button , TextInput, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Keyboard } from 'react-native';
 import styles from './styles/styles';
+import { Configuration, OpenAIApi } from 'openai';
+import "react-native-url-polyfill/auto";
+
+const config = require("./components/config");
 
 export default function App() {
 
   // handles change of text inside TextInput element
-  const [value, onChangeText] = useState('')
+  const [value, onChangeText] = useState('');
+
+  // handles display result values
+  const [result, setResult] = useState();
 
   // function that hides keyboard
   const dismissKeyboard = () => {
@@ -17,6 +24,48 @@ export default function App() {
   // function that clears input
   const clearInput = () => {
     onChangeText('');
+  }
+
+  // function that clears result
+  const clearResult = () => {
+    setResult('');
+  }
+
+  // function that creates a prompt
+  function generatePromptFromInput(input){
+    return `Summarize this text into bulletpoints, but every bulletpoint MUST start with '#':
+  
+    ${input}`
+  }
+
+  // function that handles API request
+  async function onSubmit(event) {
+    event.preventDefault();
+
+    try {
+
+      const configuration = new Configuration({
+        apiKey: config.OPENAI_API_KEY,
+      });
+
+      const openai = new OpenAIApi(configuration);
+      const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: generatePromptFromInput(value.trimEnd()),
+        temperature: 0,
+        max_tokens: 256,
+      });
+
+      const txt = response.data.choices[0].text;
+      console.log(txt);
+      const prettyString = txt.trimStart().replace(/#/g, "\n-");
+      setResult(prettyString.trimStart());
+      
+    } catch(error) {
+      // Consider implementing your own error handling logic here
+      console.error(error);
+      alert(error.message);
+    }
   }
 
   return (
@@ -43,11 +92,11 @@ export default function App() {
                 returnKeyType={'done'}
                 onSubmitEditing={dismissKeyboard}
                 style={styles.textInput}
-              /> 
+              />
           </View>
 
           {/* button that clears the input */}
-          <View style={styles.btnInputClear}>
+         <View style={styles.btnInputClear}>
             <Button
                   title='Clear'
                   onPress={clearInput}
@@ -59,15 +108,24 @@ export default function App() {
             <Button
               title="Summarize !" 
               color="white"
+              onPress={onSubmit}
             />
           </View>
 
           {/* response from server -> result */}
           <View style={styles.resultContainer}>
-            {/* temporary placeholder for result container */}
-            {/* the content from input field is rendered here */}
-            <Text style={styles.resultText}>{value !== "" ? value : "Summarized text"}</Text>
+            
+            <Text style={styles.resultText}>{result}</Text>
           </View>
+
+           {/* button that clears the input */}
+         <View style={styles.btnInputClear}>
+            <Button
+                  title='Clear'
+                  onPress={clearResult}
+            />
+          </View>
+          <View style={styles.spacer}></View>
         </View>
       </ScrollView>
       

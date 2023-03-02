@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     width: 350,
     paddingHorizontal: 20,
     paddingVertical: 15,
-    maxHeight: 300,
+    maxHeight: 400,
   },
   contentContainer:{
     paddingHorizontal: 20,
@@ -67,6 +67,9 @@ const styles = StyleSheet.create({
   btnInputClear:{
     marginLeft: 300,
     marginBottom: -30,
+  },
+  spacer:{
+    marginVertical: 30,
   }
 });
 
