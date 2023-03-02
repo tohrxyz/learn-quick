@@ -6,6 +6,9 @@ import styles from './styles/styles';
 import { Configuration, OpenAIApi } from 'openai';
 import "react-native-url-polyfill/auto";
 
+// important for loading OPENAI_API_KEY from ./components/config.js 
+// until loading from .env doesnt work
+// api key can't be visible on github publicly -> its secret
 const config = require("./components/config");
 
 export default function App() {
@@ -44,11 +47,14 @@ export default function App() {
 
     try {
 
+      // creates new configuration with user defined api key
       const configuration = new Configuration({
-        apiKey: config.OPENAI_API_KEY,
+        apiKey: config.OPENAI_API_KEY, //from ./components/config.js
       });
 
       const openai = new OpenAIApi(configuration);
+
+      // api request response with parameters
       const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: generatePromptFromInput(value.trimEnd()),
@@ -56,9 +62,13 @@ export default function App() {
         max_tokens: 256,
       });
 
+      // returned response converted to string
       const txt = response.data.choices[0].text;
-      console.log(txt);
+      
+      // insert '\n\ before every '#'
       const prettyString = txt.trimStart().replace(/#/g, "\n-");
+
+      // sets API response into variable that gets displayed into result field
       setResult(prettyString.trimStart());
       
     } catch(error) {
@@ -125,7 +135,10 @@ export default function App() {
                   onPress={clearResult}
             />
           </View>
+
+          {/* this functions as a space on the bottom of screen */}
           <View style={styles.spacer}></View>
+
         </View>
       </ScrollView>
       
