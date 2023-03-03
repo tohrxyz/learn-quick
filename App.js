@@ -6,6 +6,7 @@ import styles from './styles/styles';
 import "react-native-url-polyfill/auto";
 import onSubmit from './api/apiRequest';
 import * as Clipboard from 'expo-clipboard';
+import { ActivityIndicator } from 'react-native';
 
 export default function App() {
 
@@ -14,6 +15,9 @@ export default function App() {
 
   // handles display result values
   const [result, setResult] = useState('');
+
+  // handles values for when loading spinner is displayed (true/false)
+  const [isLoading, setIsLoading] = useState(false);
 
   // function that hides keyboard
   const dismissKeyboard = () => {
@@ -32,7 +36,14 @@ export default function App() {
 
   // function to handle exported function
   const onSubmitHandler = () => {
-    onSubmit(value, setResult);
+
+    // starts loading spinner before api request
+    setIsLoading(true);
+
+    // makes api request, then stops loading spinner
+    onSubmit(value, setResult).then(() => {
+      setIsLoading(false);
+    });
   }
 
   // function to paste clipboard to input field
@@ -86,11 +97,19 @@ export default function App() {
           
           {/* button to summarize */}
           <View style={styles.buttonSummarizeContainer}>
-            <Button
-              title="Summarize !" 
-              color="white"
-              onPress={onSubmitHandler}
-            />
+
+            {/* while its waiting for response from api request there is a loading spinner */}
+            {isLoading ? (
+              <ActivityIndicator size="small" color='white' />
+            ) : (
+              
+              // when its done, there's regular button
+              <Button
+                title="Summarize !"
+                color="white"
+                onPress={onSubmitHandler}
+              />
+            )}
           </View>
 
           {/* response from server -> result */}
