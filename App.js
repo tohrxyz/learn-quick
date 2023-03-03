@@ -5,6 +5,7 @@ import { Keyboard } from 'react-native';
 import styles from './styles/styles';
 import "react-native-url-polyfill/auto";
 import onSubmit from './api/apiRequest';
+import * as Clipboard from 'expo-clipboard';
 
 export default function App() {
 
@@ -34,6 +35,11 @@ export default function App() {
     onSubmit(value, setResult);
   }
 
+  // function to paste clipboard to input field
+  const pasteClipboard = async () => {
+    const text = await Clipboard.getStringAsync();
+    onChangeText(text);
+  };
 
   return (
     // container for everything
@@ -47,6 +53,14 @@ export default function App() {
           {/* title */}
           <Text style={styles.title}>Learn-Quick</Text>
           
+          {/* button that pastes clipboard to input field */}
+          <View style={styles.btnPaste}>
+            <Button
+              title='Paste'
+              onPress={pasteClipboard}
+            />
+          </View>
+
           {/* text input field for query */}
           <View style={styles.textInputContainer}>
               <TextInput
