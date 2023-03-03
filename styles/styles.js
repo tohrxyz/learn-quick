@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#0277bd',
     borderRadius: 10,
-    marginTop: 50,
+    marginTop: 0,
     width: 350,
     paddingHorizontal: 20,
     paddingVertical: 15,
@@ -70,6 +70,10 @@ const styles = StyleSheet.create({
   },
   spacer:{
     marginVertical: 30,
+  },
+  btnPaste:{
+    marginTop: 50,
+    marginLeft: -300,
   }
 });
 
