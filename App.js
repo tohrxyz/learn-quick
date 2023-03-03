@@ -3,13 +3,8 @@ import { View, Text, Button , TextInput, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Keyboard } from 'react-native';
 import styles from './styles/styles';
-import { Configuration, OpenAIApi } from 'openai';
 import "react-native-url-polyfill/auto";
-
-// important for loading OPENAI_API_KEY from ./components/config.js 
-// until loading from .env doesnt work
-// api key can't be visible on github publicly -> its secret
-const config = require("./components/config");
+import onSubmit from './api/apiRequest';
 
 export default function App() {
 
@@ -34,49 +29,11 @@ export default function App() {
     setResult('');
   }
 
-  // function that creates a prompt
-  function generatePromptFromInput(input){
-    return `Summarize this text into bulletpoints, but every bulletpoint MUST start with '#':
-  
-    ${input}`
+  // function to handle exported function
+  const onSubmitHandler = () => {
+    onSubmit(value, setResult);
   }
 
-  // function that handles API request
-  async function onSubmit(event) {
-    event.preventDefault();
-
-    try {
-
-      // creates new configuration with user defined api key
-      const configuration = new Configuration({
-        apiKey: config.OPENAI_API_KEY, //from ./components/config.js
-      });
-
-      const openai = new OpenAIApi(configuration);
-
-      // api request response with parameters
-      const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: generatePromptFromInput(value.trimEnd()),
-        temperature: 0,
-        max_tokens: 256,
-      });
-
-      // returned response converted to string
-      const txt = response.data.choices[0].text;
-      
-      // insert '\n\ before every '#'
-      const prettyString = txt.trimStart().replace(/#/g, "\n-");
-
-      // sets API response into variable that gets displayed into result field
-      setResult(prettyString.trimStart());
-      
-    } catch(error) {
-      // Consider implementing your own error handling logic here
-      console.error(error);
-      alert(error.message);
-    }
-  }
 
   return (
     // container for everything
@@ -118,7 +75,7 @@ export default function App() {
             <Button
               title="Summarize !" 
               color="white"
-              onPress={onSubmit}
+              onPress={onSubmitHandler}
             />
           </View>
 

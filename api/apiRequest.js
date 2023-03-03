@@ -1,56 +1,46 @@
-import { Configuration, OpenAIApi } from 'openai';
+import { Configuration, OpenAIApi } from "openai";
+const config = require("../components/config");
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
-
-export default async function (req, res) {
-  if (!configuration.apiKey) {
-    res.status(500).json({
-      error: {
-        message: "OpenAI API key not configured, please follow instructions in README.md",
-      }
-    });
-    return;
-  }
-
-  const textInput = req.body.textInput || '';
-  if (animal.trim().length === 0) {
-    res.status(400).json({
-      error: {
-        message: "Please enter a valid text input",
-      }
-    });
-    return;
-  }
+// function that handles API request
+export default async function onSubmit(value, setResult) {
 
   try {
-    const completion = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: generatePrompt(textInput),
-      temperature: 0.6,
-    });
-    res.status(200).json({ result: completion.data.choices[0].text });
-  } catch(error) {
-    // Consider adjusting the error handling logic for your use case
-    if (error.response) {
-      console.error(error.response.status, error.response.data);
-      res.status(error.response.status).json(error.response.data);
-    } else {
-      console.error(`Error with OpenAI API request: ${error.message}`);
-      res.status(500).json({
-        error: {
-          message: 'An error occurred during your request.',
-        }
-      });
-    }
-  }
-}
 
-function generatePrompt(textInput){
-  return `Summarize this text into bulletpoints:
-  
-  ${textInput}`
-}
+    // creates new configuration with user defined api key
+    const configuration = new Configuration({
+      apiKey: config.OPENAI_API_KEY, //from ./components/config.js
+    });
+
+    const openai = new OpenAIApi(configuration);
+
+    // api request response with parameters
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: generatePromptFromInput(value.trimEnd()),
+      temperature: 0,
+      max_tokens: 256,
+
+    });
+
+    // returned response converted to string
+    const txt = response.data.choices[0].text;
+    
+    // insert '\n\ before every '#'
+    const prettyString = txt.trimStart().replace(/#/g, "\n-");
+
+    // sets API response into variable that gets displayed into result field
+    setResult(prettyString.trimStart());
+    
+  } catch(error) {
+    // Consider implementing your own error handling logic here
+    console.error(error);
+    alert(error.message);
+  }
+};
+
+// function that creates a prompt
+function generatePromptFromInput(input){
+  return `Summarize this text into bulletpoints, but every bulletpoint MUST start with '#':
+
+  ${input}`
+};
