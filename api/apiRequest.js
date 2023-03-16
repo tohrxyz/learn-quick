@@ -13,17 +13,14 @@ export default async function onSubmit(value, setResult) {
 
     const openai = new OpenAIApi(configuration);
 
-    // api request response with parameters
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: generatePromptFromInput(value.trimEnd()),
-      temperature: 0,
-      max_tokens: 256,
-
+    // make an api request
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{role: "user", content: generatePromptFromInput(value)}],
     });
 
     // returned response converted to string
-    const txt = response.data.choices[0].text;
+    const txt = completion.data.choices[0].message.content;
     
     // insert '\n\ before every '#'
     const prettyString = txt.trimStart().replace(/#/g, "\n-");
