@@ -39,5 +39,5 @@ export default async function onSubmit(value, setResult) {
 function generatePromptFromInput(input){
   return `Summarize this text into bulletpoints, but every bulletpoint MUST start with '#':
 
-  ${input}, and respond in language that you I wrote this text`
+  ${input}. Respond in language that you I wrote this text, this is important to recognize language and use it for your response.`
 };
