@@ -23,7 +23,7 @@ export default async function onSubmit(value, setResult) {
     const txt = completion.data.choices[0].message.content;
     
     // insert '\n\ before every '#'
-    const prettyString = txt.trimStart().replace(/#/g, "\n-");
+    const prettyString = txt.trimStart().replace(/#/g, "\n• ");
 
     // sets API response into variable that gets displayed into result field
     setResult(prettyString.trimStart());

@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import * as Font from 'expo-font';
+
+const fontRegular = require('../assets/fonts/PTSerif-Regular.ttf');
 
 const styles = StyleSheet.create({
   container:{
@@ -54,12 +57,13 @@ const styles = StyleSheet.create({
   },
   resultContainer:{
     marginTop: 50,
-    borderWidth: 3,
-    borderColor: '#0277bd',
+    // borderWidth: 3,
+    // borderColor: '#0277bd',
     width: 350,
     borderRadius: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     paddingVertical: 15,
+    fontFamily: 'fontRegular'
   },
   resultText:{
     fontSize: 18,
@@ -77,4 +81,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default styles;
+async function loadFonts() {
+  await Font.loadAsync({
+    'fontRegular': fontRegular,
+  });
+}
+
+export { styles, loadFonts };
