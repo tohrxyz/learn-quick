@@ -1,4 +1,8 @@
 import { StyleSheet } from "react-native";
+import * as Font from 'expo-font';
+
+const fontRegular = require('../assets/fonts/PTSerif-Regular.ttf');
+const fontBold = require('../assets/fonts/PTSerif-Bold.ttf');
 
 const styles = StyleSheet.create({
   container:{
@@ -12,6 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: '#0277bd',
+    fontFamily: 'fontBold'
   },
   description:{
     marginTop: 50,
@@ -20,10 +25,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // marginLeft: -50,
     fontWeight: 'bold',
+    fontFamily: 'fontRegular'
   },
   textInput:{
     color: 'black',
     fontSize: 18,
+    fontFamily: 'fontRegular'
   },
   textInputContainer:{
     borderWidth: 3,
@@ -51,22 +58,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
+    fontFamily: 'fontRegular'
   },
   resultContainer:{
     marginTop: 50,
-    borderWidth: 3,
-    borderColor: '#0277bd',
+    // borderWidth: 3,
+    // borderColor: '#0277bd',
     width: 350,
     borderRadius: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     paddingVertical: 15,
+    fontFamily: 'fontRegular'
   },
   resultText:{
     fontSize: 18,
+    fontFamily: 'fontRegular'
   },
   btnInputClear:{
     marginLeft: 300,
     marginBottom: -30,
+    fontFamily: 'fontRegular'
   },
   spacer:{
     marginVertical: 30,
@@ -74,7 +85,15 @@ const styles = StyleSheet.create({
   btnPaste:{
     marginTop: 50,
     marginLeft: -300,
+    fontFamily: 'fontRegular'
   }
 });
 
-export default styles;
+async function loadFonts() {
+  await Font.loadAsync({
+    'fontRegular': fontRegular,
+    'fontBold': fontBold,
+  });
+}
+
+export { styles, loadFonts };

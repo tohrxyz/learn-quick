@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button , TextInput, ScrollView} from 'react-native';
 import { SafeAreaView } from 'react-native';
 import { Keyboard } from 'react-native';
-import styles from './styles/styles';
 import "react-native-url-polyfill/auto";
 import onSubmit from './api/apiRequest';
 import * as Clipboard from 'expo-clipboard';
 import { ActivityIndicator } from 'react-native';
+import { styles, loadFonts } from './styles/styles';
 
 export default function App() {
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
 
   // handles change of text inside TextInput element
   const [value, onChangeText] = useState('');
@@ -111,20 +115,24 @@ export default function App() {
               />
             )}
           </View>
+          
+          { result !== '' && (
+            <View>
+              {/* response from server -> result */}
+              <View style={styles.resultContainer}>
+                {/* when result is empty put a placeholder there */}
+                <Text style={styles.resultText}>{result}</Text>
+              </View>
 
-          {/* response from server -> result */}
-          <View style={styles.resultContainer}>
-            {/* when result is empty put a placeholder there */}
-            <Text style={styles.resultText}>{result !== '' ? result : "Summarized text" }</Text>
-          </View>
-
-           {/* button that clears the input */}
-         <View style={styles.btnInputClear}>
-            <Button
-                  title='Clear'
-                  onPress={clearResult}
-            />
-          </View>
+              {/* button that clears the input */}
+            <View style={styles.btnInputClear}>
+                <Button
+                      title='Clear'
+                      onPress={clearResult}
+                />
+              </View>
+            </View>
+          )}
 
           {/* this functions as a space on the bottom of screen */}
           <View style={styles.spacer}></View>
