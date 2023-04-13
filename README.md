@@ -5,16 +5,7 @@ It's a smartphone app, that enables you to summarize long text using OpenAI's mo
 
 Written in ``React Native`` and currently tested on ``iOS``.
 
-<table>
-  <tr>
-    <td>
-      <img src="https://github.com/tohrxyz/learn-quick/blob/master/assets/screenshot_clear.jpeg" width="300px">
-    </td>
-    <td>
-      <img src="https://github.com/tohrxyz/learn-quick/blob/master/assets/usage.gif" width="285px">
-    </td>
-  </tr>
-</table>
+<img src="https://github.com/tohrxyz/learn-quick/blob/master/assets/usage.gif" width="285px">
 
 
 
