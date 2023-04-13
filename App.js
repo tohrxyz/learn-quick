@@ -10,19 +10,27 @@ import { styles, loadFonts } from './styles/styles';
 
 export default function App() {
 
-  useEffect(() => {
-    loadFonts();
-  }, []);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // handles change of text inside TextInput element
   const [value, onChangeText] = useState('');
-
+  
   // handles display result values
   const [result, setResult] = useState('');
-
+  
   // handles values for when loading spinner is displayed (true/false)
   const [isLoading, setIsLoading] = useState(false);
+  
+  useEffect(() => {
+    loadFonts().then(() => {
+      setIsLoaded(true);
+    });
+  }, []);
 
+  if (!isLoaded) {
+    return <ActivityIndicator />;
+  }
+  
   // function that hides keyboard
   const dismissKeyboard = () => {
     Keyboard.dismiss();
